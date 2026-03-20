@@ -15,7 +15,7 @@
     .eliminated img { filter: grayscale(100%); opacity: 0.6; }
     .badge { position: absolute; top: 5px; right: 5px; font-size: 20px; }
     .vip { position: absolute; bottom: 5px; right: 5px; font-size: 18px; }
-    .percent { position: absolute; bottom: 30px; left: 5px; right: 5px; font-size: 14px; line-height: 1.2; text-align: center; white-space: normal; overflow-wrap: anywhere; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 6px; box-sizing: border-box; }
+    .percent { position: absolute; bottom: 5px; left: 5px; font-size: 14px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 6px; }
     .info-box { background: #1e1e1e; border-radius: 12px; padding: 15px; margin: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
     .controls { margin-top: 20px; }
     button { margin: 5px; padding: 10px; border: none; border-radius: 8px; cursor: pointer; }
@@ -68,7 +68,7 @@
       { name: "Duda", img: "duda.jpg" },
       { name: "Lukinhas", img: "lukinhas.jpg" },
       { name: "Luka", img: "luka.jpg" },
-      { name: "Jhon Bets", img: "jhon bets.jpg" },
+      { name: "Jhon Bets", img: "jhon-bets.jpg" },
       { name: "Patrick", img: "patrick.jpg" },
       { name: "Dudu", img: "dudu.jpg" },
       { name: "Eric", img: "eric.jpg" },
@@ -138,16 +138,60 @@
     }
 
     function setLeader() {
-      saveState(getSelectedIndex(), { leader: true });
+      const index = getSelectedIndex();
+      const badge = document.getElementById("badge-" + index);
+      const isLeader = badge.textContent.includes("👑");
+
+      if (isLeader) {
+        saveState(index, { leader: false });
+      } else {
+        players.forEach((_, i) => saveState(i, { leader: false }));
+        saveState(index, { leader: true });
+      }
     }
 
-    function setMonster() { saveState(getSelectedIndex(), { monster: true }); }
-    function setAngel() { saveState(getSelectedIndex(), { angel: true }); }
-    function setVip() { saveState(getSelectedIndex(), { vip: true, xepa: false }); }
-    function setXepa() { saveState(getSelectedIndex(), { xepa: true, vip: false }); }
+    function setMonster() {
+      const index = getSelectedIndex();
+      const badge = document.getElementById("badge-" + index);
+      const has = badge.textContent.includes("👹");
+      saveState(index, { monster: !has });
+    }
+
+    function setAngel() {
+      const index = getSelectedIndex();
+      const badge = document.getElementById("badge-" + index);
+      const has = badge.textContent.includes("😇");
+      saveState(index, { angel: !has });
+    }
+
+    function setVip() {
+      const index = getSelectedIndex();
+      const el = document.getElementById("vip-" + index);
+      const isVip = el.textContent === "💰";
+
+      if (isVip) {
+        saveState(index, { vip: false });
+      } else {
+        saveState(index, { vip: true, xepa: false });
+      }
+    }
+
+    function setXepa() {
+      const index = getSelectedIndex();
+      const el = document.getElementById("vip-" + index);
+      const isXepa = el.textContent === "🥀";
+
+      if (isXepa) {
+        saveState(index, { xepa: false });
+      } else {
+        saveState(index, { xepa: true, vip: false });
+      }
+    }
 
     function clearBadges() {
-      players.forEach((_, i) => saveState(i, { leader:false, monster:false, angel:false, vip:false, xepa:false, percent:"", eliminated:false }));
+      players.forEach((_, i) => {
+        saveState(i, { leader:false, monster:false, angel:false, vip:false, xepa:false, percent:"", eliminated:false });
+      });
     }
 
     function setPercent() {
