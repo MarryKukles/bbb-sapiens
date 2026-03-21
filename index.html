@@ -4,24 +4,106 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BBB Sapiens🦍</title>
+
   <style>
-    body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; }
-    h1 { margin: 20px 0; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; padding: 20px; }
-    .card { position: relative; border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
-    .card:hover { transform: scale(1.05); }
-    .card img { width: 100%; height: 180px; object-fit: contain; background: #000; }
-    .name { padding: 5px; font-size: 14px; }
-    .eliminated img { filter: grayscale(100%); opacity: 0.6; }
-    .badge { position: absolute; top: 5px; right: 5px; font-size: 20px; }
-    .vip { position: absolute; bottom: 5px; right: 5px; font-size: 18px; }
-    .percent { position: absolute; bottom: 30px; left: 5px; right: 5px; font-size: 14px; line-height: 1.2; text-align: center; white-space: normal; overflow-wrap: anywhere; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 6px; box-sizing: border-box; }
-    .info-box { background: #1e1e1e; border-radius: 12px; padding: 15px; margin: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-    .controls { margin-top: 20px; }
-    button { margin: 5px; padding: 10px; border: none; border-radius: 8px; cursor: pointer; }
-    select { padding: 8px; border-radius: 8px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 20px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .name {
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    .eliminated img {
+      filter: grayscale(100%);
+      opacity: 0.6;
+    }
+
+    .badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 20px;
+    }
+
+    .vip {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 18px;
+    }
+
+    .percent {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      font-size: 14px;
+      background: rgba(0,0,0,0.6);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .info-box {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    select {
+      padding: 8px;
+      border-radius: 8px;
+    }
   </style>
 </head>
+
 <body>
   <h1>BBB Sapiens🦍</h1>
 
@@ -29,6 +111,15 @@
     <h2>📢 Regras da Casa</h2>
     <p><strong>🥀 Xepa:</strong> não pode tomar café nem comer misto</p>
     <p><strong>💰 VIP:</strong> pode comer e beber à vontade</p>
+  </div>
+
+  <div class="info-box">
+    <h2>🗓️ Dinâmica da Semana</h2>
+    <p><strong>👹 Monstro:</strong> acontece na segunda</p>
+    <p><strong>🥀 Xepa:</strong> dura segunda e terça</p>
+    <p><strong>🎯 Formação de paredão + Eliminação:</strong> quarta-feira</p>
+    <p><strong>👑 Prova do Líder:</strong> quinta-feira</p>
+    <p><strong>😇 Prova do Anjo:</strong> sexta-feira</p>
   </div>
 
   <div class="controls">
@@ -39,7 +130,7 @@
     <button onclick="setAngel()">😇 Anjo</button>
     <button onclick="setVip()">💰 VIP</button>
     <button onclick="setXepa()">🥀 Xepa</button>
-    <button onclick="setPercent()">📊 % Eliminação</button>
+    <button onclick="setPercent()">📊 %</button>
     <button onclick="clearBadges()">Limpar Status</button>
   </div>
 
@@ -53,11 +144,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyAVkCHEMPXAEH3OJitQX2CGXVJrTHLgBgA",
       authDomain: "bbb-sapiens.firebaseapp.com",
-      projectId: "bbb-sapiens",
-      storageBucket: "bbb-sapiens.firebasestorage.app",
-      messagingSenderId: "503080421886",
-      appId: "1:503080421886:web:bb69247fe44cf79c0b18af",
-      measurementId: "G-V33EY56GTM"
+      projectId: "bbb-sapiens"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -79,33 +166,38 @@
     const grid = document.getElementById("grid");
     const select = document.getElementById("playerSelect");
 
-    players.forEach((p, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.textContent = p.name;
-      select.appendChild(option);
+    players.forEach((p, i) => {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = p.name;
+      select.appendChild(opt);
 
       const card = document.createElement("div");
       card.className = "card";
-      card.id = "player-" + index;
+      card.id = "player-" + i;
 
-      card.innerHTML = "<img src='" + p.img + "' />" +
-        "<div class='name'>" + p.name + "</div>" +
-        "<div class='badge' id='badge-" + index + "'></div>" +
-        "<div class='vip' id='vip-" + index + "'></div>" +
-        "<div class='percent' id='percent-" + index + "'></div>";
+      card.innerHTML = `
+        <img src="${p.img}" />
+        <div class="name">${p.name}</div>
+        <div class="badge" id="badge-${i}"></div>
+        <div class="vip" id="vip-${i}"></div>
+        <div class="percent" id="percent-${i}"></div>
+      `;
 
       grid.appendChild(card);
     });
 
-    function getSelectedIndex() { return parseInt(select.value); }
+    function getSelectedIndex() {
+      return parseInt(select.value);
+    }
 
-    function saveState(index, data) {
-      db.collection("players").doc(String(index)).set(data, { merge: true });
+    function saveState(i, data) {
+      db.collection("players").doc(String(i)).set(data, { merge: true });
     }
 
     function listenUpdates() {
-      db.collection("players").onSnapshot((snapshot) => {
+      db.collection("players").onSnapshot((snap) => {
+
         players.forEach((_, i) => {
           document.getElementById("badge-"+i).textContent = "";
           document.getElementById("vip-"+i).textContent = "";
@@ -113,15 +205,17 @@
           document.getElementById("player-"+i).classList.remove("eliminated");
         });
 
-        snapshot.forEach((doc) => {
+        snap.forEach(doc => {
           const i = doc.id;
           const d = doc.data();
 
           if (d.leader) document.getElementById("badge-"+i).textContent += " 👑";
           if (d.monster) document.getElementById("badge-"+i).textContent += " 👹";
           if (d.angel) document.getElementById("badge-"+i).textContent += " 😇";
+
           if (d.vip) document.getElementById("vip-"+i).textContent = "💰";
           if (d.xepa) document.getElementById("vip-"+i).textContent = "🥀";
+
           if (d.percent) document.getElementById("percent-"+i).textContent = d.percent;
           if (d.eliminated) document.getElementById("player-"+i).classList.add("eliminated");
         });
@@ -138,66 +232,74 @@
     }
 
     function setLeader() {
-      const index = getSelectedIndex();
-      const badge = document.getElementById("badge-" + index);
+      const i = getSelectedIndex();
+      const badge = document.getElementById("badge-" + i);
       const isLeader = badge.textContent.includes("👑");
 
       if (isLeader) {
-        saveState(index, { leader: false });
+        saveState(i, { leader: false });
       } else {
-        players.forEach((_, i) => saveState(i, { leader: false }));
-        saveState(index, { leader: true });
+        players.forEach((_, idx) => saveState(idx, { leader: false }));
+        saveState(i, { leader: true });
       }
     }
 
     function setMonster() {
-      const index = getSelectedIndex();
-      const badge = document.getElementById("badge-" + index);
+      const i = getSelectedIndex();
+      const badge = document.getElementById("badge-" + i);
       const has = badge.textContent.includes("👹");
-      saveState(index, { monster: !has });
+      saveState(i, { monster: !has });
     }
 
     function setAngel() {
-      const index = getSelectedIndex();
-      const badge = document.getElementById("badge-" + index);
+      const i = getSelectedIndex();
+      const badge = document.getElementById("badge-" + i);
       const has = badge.textContent.includes("😇");
-      saveState(index, { angel: !has });
+      saveState(i, { angel: !has });
     }
 
     function setVip() {
-      const index = getSelectedIndex();
-      const el = document.getElementById("vip-" + index);
+      const i = getSelectedIndex();
+      const el = document.getElementById("vip-" + i);
       const isVip = el.textContent === "💰";
 
       if (isVip) {
-        saveState(index, { vip: false });
+        saveState(i, { vip: false });
       } else {
-        saveState(index, { vip: true, xepa: false });
+        saveState(i, { vip: true, xepa: false });
       }
     }
 
     function setXepa() {
-      const index = getSelectedIndex();
-      const el = document.getElementById("vip-" + index);
+      const i = getSelectedIndex();
+      const el = document.getElementById("vip-" + i);
       const isXepa = el.textContent === "🥀";
 
       if (isXepa) {
-        saveState(index, { xepa: false });
+        saveState(i, { xepa: false });
       } else {
-        saveState(index, { xepa: true, vip: false });
+        saveState(i, { xepa: true, vip: false });
       }
     }
 
     function clearBadges() {
       players.forEach((_, i) => {
-        saveState(i, { leader:false, monster:false, angel:false, vip:false, xepa:false, percent:"", eliminated:false });
+        saveState(i, {
+          leader:false,
+          monster:false,
+          angel:false,
+          vip:false,
+          xepa:false,
+          percent:"",
+          eliminated:false
+        });
       });
     }
 
     function setPercent() {
-      const value = prompt("Digite a porcentagem (ex: 87 ou 87%)");
-      if (value) {
-        const formatted = value.includes("%") ? value : value+"%";
+      const v = prompt("Digite a % (ex: 87 ou 87%)");
+      if (v) {
+        const formatted = v.includes("%") ? v : v + "%";
         saveState(getSelectedIndex(), { percent: formatted });
       }
     }
